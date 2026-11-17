@@ -37,4 +37,22 @@ with tab1:
 
 with tab2:
     st.write(f"Type a sentence for the model to complete it. ")
+
+    text = st.text_input(
+        "Your sentence", 
+        "I love learning about [MASK]"
+    )
+
+    if st.button("Guess the missing word"):
+        if "[MASK]" not in text:
+            st.warning("Please include [MASK] in your senetence.")
+        else:
+            with st.spinner("Guessing..."):
+                results = load_fill_mask_model()(text)
+
+            for result in results:
+                st.write(
+                    result["sequence"],
+                    round(result["score"], 3)
+                )
     
